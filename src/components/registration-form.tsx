@@ -11,7 +11,17 @@ export default function RegistrationForm() {
         registerPatient,
         null,
     );
-    console.log('state', state);
+    console.log(state);
+    const getFieldError = (field: string) => {
+        if (state && state?.errors) {
+            const errorObj = state.errors.find(
+                (error: {field: string}) => error.field === field,
+            );
+            return errorObj ? errorObj.message : null;
+        }
+        return null;
+    };
+
     return (
         <form action={formAction}>
             <FieldGroup>
@@ -24,8 +34,12 @@ export default function RegistrationForm() {
                             name='name'
                             type='text'
                             placeholder='John Doe'
-                            required
-                        ></Input>
+                        />
+                        {getFieldError('name') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('name')}
+                            </FieldDescription>
+                        )}
                     </Field>
 
                     {/* Address */}
@@ -37,6 +51,11 @@ export default function RegistrationForm() {
                             type='text'
                             placeholder='123 Main St'
                         />
+                        {/* {getFieldError('address') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('address')}
+                            </FieldDescription>
+                        )} */}
                     </Field>
 
                     {/* Email */}
@@ -47,8 +66,13 @@ export default function RegistrationForm() {
                             name='email'
                             type='email'
                             placeholder='john@example.com'
-                            required
-                        ></Input>
+                        />
+
+                        {getFieldError('email') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('email')}
+                            </FieldDescription>
+                        )}
                     </Field>
 
                     {/* Password */}
@@ -59,8 +83,13 @@ export default function RegistrationForm() {
                             name='password'
                             type='password'
                             placeholder='john@example.com'
-                            required
-                        ></Input>
+                        />
+
+                        {getFieldError('password') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('password')}
+                            </FieldDescription>
+                        )}
                     </Field>
 
                     {/* Confirm Password */}
@@ -73,6 +102,11 @@ export default function RegistrationForm() {
                             name='confirmPassword'
                             type='password'
                         />
+                        {getFieldError('confirmPassword') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('confirmPassword')}
+                            </FieldDescription>
+                        )}
                     </Field>
                 </div>
 

@@ -41,6 +41,9 @@ const PublicNavbar = () => {
                     <Link href='/login' className='text-lg font-medium'>
                         <Button>Login</Button>
                     </Link>
+                    <Link href='/registration' className='text-lg font-medium'>
+                        <Button variant='outline'>Registration</Button>
+                    </Link>
                 </div>
 
                 {/* Mobile Menu */}
@@ -77,6 +80,15 @@ const PublicNavbar = () => {
                                         className='text-lg font-medium'
                                     >
                                         <Button>Login</Button>
+                                    </Link>
+
+                                    <Link
+                                        href='/registration'
+                                        className='text-lg font-medium'
+                                    >
+                                        <Button variant='outline'>
+                                            Registration
+                                        </Button>
                                     </Link>
                                 </div>
                             </nav>

@@ -1,11 +1,24 @@
 'use client';
+import {useActionState} from 'react';
 import {Button} from './ui/button';
 import {Field, FieldDescription, FieldGroup, FieldLabel} from './ui/field';
 import {Input} from './ui/input';
+import {loginUser} from '@/services/auth/loginUser';
 
 const LoginForm = () => {
+    const [state, formAction, isPending] = useActionState(loginUser, null);
+
+    const getFieldError = (field: string) => {
+        if (state && state?.errors) {
+            const errorObj = state.errors.find(
+                (error: {field: string}) => error.field === field,
+            );
+            return errorObj ? errorObj.message : null;
+        }
+        return null;
+    };
     return (
-        <form>
+        <form action={formAction}>
             <FieldGroup>
                 <div className='grid grid-cols-1 gap-4'>
                     {/* Email */}
@@ -18,6 +31,11 @@ const LoginForm = () => {
                             placeholder='m@example.com'
                             //   required
                         />
+                        {getFieldError('email') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('email')}
+                            </FieldDescription>
+                        )}
                     </Field>
 
                     {/* Password */}
@@ -30,11 +48,18 @@ const LoginForm = () => {
                             placeholder='Enter your password'
                             //   required
                         />
+                        {getFieldError('password') && (
+                            <FieldDescription className='text-red-600'>
+                                {getFieldError('password')}
+                            </FieldDescription>
+                        )}
                     </Field>
                 </div>
                 <FieldGroup className='mt-4'>
                     <Field>
-                        <Button type='submit'></Button>
+                        <Button type='submit' disabled={isPending}>
+                            {isPending ? 'Logging in' : 'Login'}
+                        </Button>
 
                         <FieldDescription className='px-6 text-center'>
                             Don&apos;t have an account?{' '}
