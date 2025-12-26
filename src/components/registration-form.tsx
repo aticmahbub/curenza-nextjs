@@ -1,11 +1,19 @@
-import React from 'react';
+'use client';
+
+import {useActionState} from 'react';
 import {Field, FieldDescription, FieldGroup, FieldLabel} from './ui/field';
 import {Input} from './ui/input';
 import {Button} from './ui/button';
+import {registerPatient} from '@/services/auth/registerPatient';
 
 export default function RegistrationForm() {
+    const [state, formAction, isPending] = useActionState(
+        registerPatient,
+        null,
+    );
+    console.log('state', state);
     return (
-        <form>
+        <form action={formAction}>
             <FieldGroup>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                     {/* Name */}
@@ -70,7 +78,11 @@ export default function RegistrationForm() {
 
                 <FieldGroup className='mt-4'>
                     <Field>
-                        <Button>Create Account</Button>
+                        <Button type='submit' disabled={isPending}>
+                            {isPending
+                                ? 'Creating account...'
+                                : 'Create Account'}
+                        </Button>
 
                         <FieldDescription className='px-6 text-center'>
                             Already have an account?{' '}
